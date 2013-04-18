@@ -1,8 +1,11 @@
-<?xml version="1.0"?>
+<?xml version="1.0"?>       <!-- Verbose comments to gain understand of what is happening in a model see: http://gazebosim.org/sdf -->
 <sdf version="1.3">
-  <model name="HKU Primitive Mouse">
-    <static>true</static>
+  <model name="HKU PC Mouse">
+    <static>false</static>                             <!-- OPT: if true, immovable and ignored by dynamics engine.  Good for speed -->
+    <allow_auto_disable>true</allow_auto_disable>      <!-- OPT: If true physics engine skips updating it when the model is at rest. Only used by models with no joints. -->
+    <pose>0.0 0.0 1.0 0.0 0.0 0.0</pose>               <!-- OPT: Model pose in the world (meters) x y z Rx, Ry Rz-->
     <link name="link">
+      <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>             <!-- Link pose **relative** to model pose -->
       <collision name="collision">
         <geometry>
           <mesh>
@@ -10,6 +13,18 @@
           </mesh>
         </geometry>
       </collision>
+      <inertial>
+        <mass>0.068</mass>                              <!-- Req: mass of the link in KG -->
+        <pose>0.029 0.058 0.018 0.0 0.0 0.0</pose>      <!-- eq: Center of Gravity **relative** to link pose -->
+        <inertia>                                       <!-- Req: Inertia Values-->                                      
+          <ixx>0.000078427</ixx>                        <!-- Used a rectangular solid approximation here to estimate -->
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyy>0.000029835</iyy>
+          <iyz>0.0</iyz>
+          <izz>0.000093574</izz>  
+        </inertia>
+      <inertial>
       <visual name="visual">
         <geometry>
           <mesh>
@@ -17,6 +32,11 @@
           </mesh>
         </geometry>
       </visual>
+      <velocity_decay>
+        <linear>1.00</linear>                          <!--DUMMY VALUE Req: Linear damping, double -->  
+        <angular>1.00</angular>                        <!--DUMMY VALUE Req: Angular damping, double -->
+      </velocity_decay>
     </link>
   </model>
 </sdf>
+  <!-- There are also optional surface parameters for bounce, friction, and contact interaction. See: http://gazebosim.org/sdf -->
